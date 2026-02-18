@@ -1,7 +1,7 @@
 // Fetch URL from storage
 var getUrlFromStorage = function () {
   chrome.storage.sync.get("url", function(items) {
-    if (!chrome.runtime.error && items.url)
+    if (!chrome.runtime.lastError && items.url)
       window.dispatchEvent(
         new CustomEvent('url:loaded', { 'detail': items.url })
       );
@@ -20,8 +20,8 @@ var clearUrl  = function () {
 // Write URL to storage
 var writeUrl = function (newUrl) {
   chrome.storage.sync.set({ "url" : newUrl }, function() {
-    if (chrome.extension.lastError) {
-       alert('Can not save URL: ' + chrome.extension.lastError.message);
+    if (chrome.runtime.lastError) {
+       alert('Can not save URL: ' + chrome.runtime.lastError.message);
     } else {
       window.dispatchEvent(
         new CustomEvent('url:loaded', { 'detail': newUrl })
